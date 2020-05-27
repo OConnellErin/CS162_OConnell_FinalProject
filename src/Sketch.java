@@ -29,18 +29,19 @@ public class Sketch extends PApplet {
         person.move();
     }
 
-/*
-    public void collide(){
-        int whoWins = 1 + (int) (Math.random() * ((10 - 1) + 1));
-        if(zombie.x == person.x && person.y = zombie.y){
-            if(whoWins<7){
-                //human turns into zombie
-            }
-            else{
-                //zombies.remove(this zombie);
-            }
 
-        }
-    }
-*/
+//    public void collide(){
+//        int whoWins = 1 + (int) (Math.random() * ((10 - 1) + 1));
+//        if(zombie.x == person.x && person.y = zombie.y){
+//            if(whoWins<7){
+//                //human turns into zombie
+//            }
+//            else{
+//                //zombies.remove(this zombie);
+//                //ParticleSystem = new ParticleSystem(zombie.x,zombie.y);
+//            }
+//
+//        }
+//    }
+
 }
