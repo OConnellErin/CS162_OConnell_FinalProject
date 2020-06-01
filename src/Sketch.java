@@ -6,6 +6,7 @@ public class Sketch extends PApplet {
     Human person;
     Zombie zombie;
     ArrayList<Human> humans = new ArrayList<Human>();
+    ArrayList<Zombie> zombies = new ArrayList<>();
 
 
     public void settings(){
@@ -18,30 +19,23 @@ public class Sketch extends PApplet {
         person = new Human(this); //this sends the constructor an instance of this aka a sketch in this case
         zombie = new Zombie(this);
         humans.add(new Human());
+        zombies.add(new Zombie());
     }
 
     @Override
     public void draw() {
         background(100);
+//        zombies.draw();
         zombie.draw();
         zombie.move();
         person.draw();
         person.move();
+        zombie.counter(zombies);
+        person.counter(humans);
+ //       person.collide(zombie);
     }
 
 
-//    public void collide(){
-//        int whoWins = 1 + (int) (Math.random() * ((10 - 1) + 1));
-//        if(zombie.x == person.x && person.y = zombie.y){
-//            if(whoWins<7){
-//                //human turns into zombie
-//            }
-//            else{
-//                //zombies.remove(this zombie);
-//                //ParticleSystem = new ParticleSystem(zombie.x,zombie.y);
-//            }
-//
-//        }
-//    }
+
 
 }

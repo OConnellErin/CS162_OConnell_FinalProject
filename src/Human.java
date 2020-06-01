@@ -42,9 +42,29 @@ public class Human {
             --y;
         }
     }
+    public void counter(ArrayList humans){
+        p.textSize(20);
+        p.text("Humans: " + humans.size(), 220, 450);
+        p.fill(0, 102, 153);
+    }
 
-    //    counter(){
-//        p.text("Humans: " + humans.size());
+        public void collide(Zombie zombie){
+            int whoWins = 1 + (int) (Math.random() * ((10 - 1) + 1));
+             if(this.x == zombie.x && this.y == zombie.y){
+                 if(whoWins<7){
+
+                //human turns into zombie
+            }
+                else{
+                //zombies.remove(this zombie);
+                //ParticleSystem = new ParticleSystem(zombie.x,zombie.y);
+            }
+        }
+    }
+
+//    public void explode(){
+//        if( collide == false){
+//            ParticleSystem explode = new ParticleSystem(zombie.x,zombie.y);
+//        }
 //    }
-
 }

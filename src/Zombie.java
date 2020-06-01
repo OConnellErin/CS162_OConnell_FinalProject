@@ -44,8 +44,10 @@ public class Zombie {
     }
 
 
-//    counter(){
-//        p.text("Zombies: " + zombies.size());
-//    }
+    public void counter(ArrayList zombies){
+        p.textSize(20);
+        p.text("Zombies: " + zombies.size(), 220, 50);
+        p.fill(0, 102, 153);
+    }
 
 }
