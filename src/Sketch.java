@@ -9,44 +9,47 @@ public class Sketch extends PApplet {
     ArrayList<Human> humans = new ArrayList<Human>();
     ArrayList<Zombie> zombies = new ArrayList<>();
 //    Soundfile zombie = new Soundfile(this, "zombie.mp3");
-//    ParticleSystem explode = new ParticleSystem(100,100,this);
+    ArrayList<ParticleSystem>explosions = new ArrayList<>();
+
+    public final int WINDOW_SIZE = 1000;
+    public final int BACKGROUND = 200;
+    public final int NUM_OF_ZOMBIES= 100;
+    public final int NUM_OF_HUMANS= 100;
+    public final int PROBABILITY_FACTOR = 5;
+
+    public boolean timeToExplode = false;
 
     public void settings(){
-        size(500,500);
+        size(WINDOW_SIZE,WINDOW_SIZE);
     }
 
-    @Override
     public void setup() {
-        super.setup();
         addHumans();
         addZombies();
     }
 
-    @Override
     public void draw() {
-        background(200);
+        background(BACKGROUND);
         drawZombies();
         moveZombies();
         drawHumans();
         drawHumans();
         moveHumans();
-        counter("Humans: ",220,450);
-        counter("Zombies: ",220,50);
+        counter(humans,"Humans: ",WINDOW_SIZE/2,50);
+        counter(zombies,"Zombies: ",WINDOW_SIZE/2,WINDOW_SIZE-50);
         collision();
-        //this was a test to see if ParticleSystem was working, it is but it is making the colors be funky.
-//        explode.draw();
-//        explode.update();
+        explode();
     }
 
     public void addHumans(){
-        for(int i=0;i<=100;++i) {
+        for(int i=0;i<=NUM_OF_HUMANS;++i) {
         humans.add(new Human(this));
 
         }
     }
 
     public void addZombies(){
-       for(int i=0;i<=100;++i) {
+       for(int i=0;i<=NUM_OF_ZOMBIES;++i) {
             zombies.add(new Zombie(this));
         }
     }
@@ -66,52 +69,55 @@ public class Sketch extends PApplet {
     }
 
     public void drawHumans(){
-        for(int i=0;i<=zombies.size()-1;++i) {
+        for(int i=0;i<=humans.size()-1;++i) {
             Human thisHuman = humans.get(i);
             thisHuman.draw();
         }
     }
 
     public void moveHumans(){
-        for(int i=0;i<=zombies.size()-1;++i) {
+        for(int i=0;i<=humans.size()-1;++i) {
             Human thisHuman = humans.get(i);
             thisHuman.move();
         }
     }
 
-    public void counter(String name,int x, int y) {
+    public void counter(ArrayList array, String name,int x, int y) {
         textSize(20);
         fill(0, 102, 153);
-        text(name + humans.size(), x, y);
+        text(name + array.size(), x, y);
+    }
+
+    public void explode() {
+        if (timeToExplode == true) {
+            for (int e = 0; e <= explosions.size() - 1; ++e) {
+                ParticleSystem explode = explosions.get(e);
+                explode.draw();
+                explode.update();
+            }
+        }
+
     }
 
     public void collision() {
-    //version of collision method that was not working.
         int whoWins = 1 + (int) (Math.random() * ((10 - 1) + 1));
         for(int i=0;i<=humans.size()-1;++i){
             Human thisHuman = humans.get(i);
             for(int z=0;z<=zombies.size()-1;++z){
                 Zombie thisZombie = zombies.get(z);
                 if (thisHuman.isHit(thisZombie)==true){
-                    if (whoWins <= 7){
-                        System.out.println("Collision has been made. 70% chance this is printed");
+                    if (whoWins <= PROBABILITY_FACTOR){
                         zombies.add(new Zombie(this, thisHuman.getX(),thisHuman.getY()));
                         humans.remove(thisHuman);
                         break;
-//                        zombie.play();
-                    } else if (whoWins > 7){
-                        ParticleSystem explode = new ParticleSystem(thisZombie.getX(),thisZombie.getY(),this);
-                        explode.draw();
-                        explode.update();
-                        zombies.remove(thisZombie);
-                        break;
+ //                          zombie.play();
+                    } else if (whoWins > PROBABILITY_FACTOR){
+                        explosions.add(new ParticleSystem(thisZombie.getX(),thisZombie.getY(),this));
+                        timeToExplode = true;
+                        }
+                         zombies.remove(thisZombie);
                     }
-                    }
-                else{
-                    System.out.println("There is no collision at the moment.");
                 }
             }
         }
     }
-}
-

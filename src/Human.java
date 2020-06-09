@@ -9,6 +9,7 @@ public class Human {
     private int w;
     private int l;
     PApplet p; //make this so person can access processing
+    private final int WINDOW_SIZE = 1000;
 
     public int getX() {
         return x;
@@ -43,11 +44,10 @@ public class Human {
     }
 
     Human(PApplet p) {
-        x = 5 + (int) (Math.random() * ((500 - 5) + 1));
-        y = 5 + (int) (Math.random() * ((50 - 5) + 1));
+        x = 5 + (int) (Math.random() * ((WINDOW_SIZE - 5) + 1));
+        y = 50 + (int) (Math.random() * ((WINDOW_SIZE - 900) + 1));
         w = 25;
         l = 25;
-        //       Color= 10;
         this.p = p;
     }
 
@@ -59,11 +59,10 @@ public class Human {
     }
 
     public void draw() {
-        p.fill(200, 200, 200);
+        p.fill(0,213,255);
         p.ellipse(x, y, w, l);
 
     }
-
 
     public void move() {
         int direction = 1 + (int) (Math.random() * ((10 - 1) + 1));
@@ -83,7 +82,7 @@ public class Human {
     public void counter(ArrayList humans) {
         p.textSize(20);
         p.text("Humans: " + humans.size(), 220, 450);
-        p.fill(0, 102, 153);
+        p.fill(0,213,255);
     }
 
     public boolean isHit(Zombie zombie) {

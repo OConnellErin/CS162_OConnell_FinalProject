@@ -8,6 +8,7 @@ public class Zombie {
     private int w;
     private int l;
     private PApplet p; //make this so person can access processing
+    private final int WINDOW_SIZE = 1000;
 
     public int getX() {
         return x;
@@ -42,8 +43,8 @@ public class Zombie {
     }
 
     Zombie(PApplet p) {
-        x = 5 + (int) (Math.random() * ((500 - 5) + 1));
-        y = 400 + (int) (Math.random() * ((499 - 400) + 1));
+        x = 5 + (int) (Math.random() * ((WINDOW_SIZE - 5) + 1));
+        y = 800 + (int) (Math.random() * ((WINDOW_SIZE - 800) + 1));
         w = 25;
         l = 25;
         this.p = p;
@@ -65,7 +66,7 @@ public class Zombie {
     }
 
     public void draw() {
-        p.fill(100,100,100);
+        p.fill(255,179,0);
         p.ellipse(x, y, w, l);
     }
 
