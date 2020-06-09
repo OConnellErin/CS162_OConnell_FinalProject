@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 class ParticleSystem {
 
-    final int NUMBER_OF_PARTICLES = 10;
-    ArrayList<Particle> particles;
-    int x;
-    int y;
+    private final int NUMBER_OF_PARTICLES = 10;
+    private ArrayList<Particle> particles;
+    private int x;
+    private int y;
 
-    ParticleSystem(PApplet p) {
+    public ParticleSystem(PApplet p) {
         particles = new ArrayList<Particle>();
         x = p.width / 2;
         y = p.height / 2;
@@ -18,7 +18,7 @@ class ParticleSystem {
         }
     }
 
-    ParticleSystem(int x, int y, PApplet p) {
+    public ParticleSystem(int x, int y, PApplet p) {
         this.x = x;
         this.y = y;
         particles = new ArrayList<Particle>();
@@ -27,14 +27,13 @@ class ParticleSystem {
         }
     }
 
-    void update() {
+    public void update() {
         for (Particle p : particles) {
             p.move();
         }
     }
 
-    void draw() {
+    public void draw() {
         for (Particle p : particles) p.draw();
     }
-
 }

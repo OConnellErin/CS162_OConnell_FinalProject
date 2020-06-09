@@ -1,18 +1,18 @@
 import processing.core.PApplet;
 class Particle {
 
-    PApplet p;
+    private PApplet p;
 
-    final double ACCELERATION = 0.1;
+    private final double ACCELERATION = 0.1;
 
-    float x;
-    float y;
-    float xVelocity;
-    float yVelocity;
-    int c;
-    float size;
+    private float x;
+    private float y;
+    private float xVelocity;
+    private float yVelocity;
+    private int c;
+    private float size;
 
-    Particle(PApplet p) {
+    public Particle(PApplet p) {
         x = p.mouseX;
         y = p.mouseY;
         this.p=p;
@@ -22,7 +22,7 @@ class Particle {
         size = p.random(10, 20);
     }
 
-    Particle(int x, int y, PApplet p) {
+    public Particle(int x, int y, PApplet p) {
         this.x = x;
         this.y = y;
         this.p=p;
@@ -32,13 +32,13 @@ class Particle {
         size = p.random(2, 10);
     }
 
-    void draw() {
+    public void draw() {
         p.stroke(150);
         p.fill(c);
         p.ellipse(x, y, size, size);
     }
 
-    void move() {
+    public void move() {
         x += xVelocity;
         y += yVelocity;
         yVelocity += ACCELERATION;

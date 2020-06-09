@@ -1,21 +1,25 @@
+//CS 132 FINAL: ZOMBIE SIMULATOR
+//ERIN OCONNELL
+//IN THIS PROGRAM A GROUP OF ZOMBIES AND A GROUP OF HUMANS WILL COLLIDE. WHO WILL SURVIVE?? DUH..DUH..DUHHHHHHHHH.
+
 import processing.core.PApplet;
 
 import java.util.ArrayList;
 
-//import processing.sound.*;
+import processing.sound.*;
 
 public class Sketch extends PApplet {
 
-    ArrayList<Human> humans = new ArrayList<Human>();
-    ArrayList<Zombie> zombies = new ArrayList<>();
-//    Soundfile zombie = new Soundfile(this, "zombie.mp3");
-    ArrayList<ParticleSystem>explosions = new ArrayList<>();
+    private ArrayList<Human> humans = new ArrayList<Human>();
+    private ArrayList<Zombie> zombies = new ArrayList<>();
+    private SoundFile zombie;
+    private ArrayList<ParticleSystem>explosions = new ArrayList<>();
 
-    public final int WINDOW_SIZE = 1000;
-    public final int BACKGROUND = 200;
-    public final int NUM_OF_ZOMBIES= 100;
-    public final int NUM_OF_HUMANS= 100;
-    public final int PROBABILITY_FACTOR = 5;
+    private final int WINDOW_SIZE = 1000;
+    private final int BACKGROUND = 200;
+    private final int NUM_OF_ZOMBIES= 74;
+    private final int NUM_OF_HUMANS= 99;
+    private int PROBABILITY_FACTOR = 5;
 
     public boolean timeToExplode = false;
 
@@ -26,6 +30,7 @@ public class Sketch extends PApplet {
     public void setup() {
         addHumans();
         addZombies();
+        zombie = new SoundFile(this, "zombie.mp3");
     }
 
     public void draw() {
@@ -57,7 +62,7 @@ public class Sketch extends PApplet {
     public void drawZombies(){
         for(int i=0;i<=zombies.size()-1;++i) {
            Zombie thisZombie = zombies.get(i);
-           thisZombie.draw();
+           thisZombie.draw(255,179,0);
         }
     }
 
@@ -106,18 +111,38 @@ public class Sketch extends PApplet {
             for(int z=0;z<=zombies.size()-1;++z){
                 Zombie thisZombie = zombies.get(z);
                 if (thisHuman.isHit(thisZombie)==true){
+                    if(thisHuman.getR()<thisZombie.getR()) {
+                        higherProbability();
+                    }else if(thisHuman.getR()>thisZombie.getR()){
+                        lowerProbability();
+                    }
                     if (whoWins <= PROBABILITY_FACTOR){
                         zombies.add(new Zombie(this, thisHuman.getX(),thisHuman.getY()));
                         humans.remove(thisHuman);
+                        //I do not have speakers on my computer so I really hope this works!!!
+                        zombie.play();
+                        resetProbabilityFactor();
                         break;
- //                          zombie.play();
-                    } else if (whoWins > PROBABILITY_FACTOR){
-                        explosions.add(new ParticleSystem(thisZombie.getX(),thisZombie.getY(),this));
+                    } else if (whoWins > PROBABILITY_FACTOR) {
+                        explosions.add(new ParticleSystem(thisZombie.getX(), thisZombie.getY(), this));
                         timeToExplode = true;
-                        }
-                         zombies.remove(thisZombie);
+                    }
+                        zombies.remove(thisZombie);
+                        resetProbabilityFactor();
                     }
                 }
             }
+        }
+
+        public void resetProbabilityFactor(){
+            PROBABILITY_FACTOR = 5;
+        }
+
+        public void higherProbability(){
+            PROBABILITY_FACTOR = PROBABILITY_FACTOR + 2;
+        }
+
+        public void lowerProbability(){
+            PROBABILITY_FACTOR = PROBABILITY_FACTOR-2;
         }
     }

@@ -1,15 +1,19 @@
 import processing.core.PApplet;
 
 import java.awt.*;
+
 import java.util.ArrayList;
 
-public class Human {
+public class Human{
     private int x;
     private int y;
-    private int w;
-    private int l;
+    private int r;
     PApplet p; //make this so person can access processing
     private final int WINDOW_SIZE = 1000;
+    protected final int TOP_CUSHION = 800;
+    protected final int BOTTOM_CUSHION = 50;
+    protected  final int MAX = 50;
+    protected  final  int MIN = 5;
 
     public int getX() {
         return x;
@@ -27,40 +31,32 @@ public class Human {
         this.y = y;
     }
 
-    public int getW() {
-        return w;
+    public int getR() {
+        return r;
     }
 
-    public void setW(int w) {
-        this.w = w;
+    public void setR(int r) {
+        this.r = r;
     }
 
-    public int getL() {
-        return l;
-    }
-
-    public void setL(int l) {
-        this.l = l;
-    }
 
     Human(PApplet p) {
-        x = 5 + (int) (Math.random() * ((WINDOW_SIZE - 5) + 1));
-        y = 50 + (int) (Math.random() * ((WINDOW_SIZE - 900) + 1));
-        w = 25;
-        l = 25;
+        x = MIN + (int) (Math.random() * ((WINDOW_SIZE - MIN) + 1));
+        y = BOTTOM_CUSHION + (int) (Math.random() * ((WINDOW_SIZE - TOP_CUSHION) + 1));
+        r = computeR();
         this.p = p;
+
     }
 
     Human() {
-        x = 5 + (int) (Math.random() * ((50 - 5) + 1));
-        y = 5 + (int) (Math.random() * ((50 - 5) + 1));
-        w = 50;
-        l = 50;
+        x = MIN + computeRandom(50,5);
+        y = MIN + computeRandom(50,5);
+        r = MIN + computeR();
     }
 
     public void draw() {
         p.fill(0,213,255);
-        p.ellipse(x, y, w, l);
+        p.circle(x, y, r);
 
     }
 
@@ -79,39 +75,27 @@ public class Human {
         }
     }
 
-    public void counter(ArrayList humans) {
-        p.textSize(20);
-        p.text("Humans: " + humans.size(), 220, 450);
-        p.fill(0,213,255);
-    }
-
     public boolean isHit(Zombie zombie) {
-        if (p.dist(zombie.getX(), zombie.getY(), x, y) < zombie.getW() / 2 + w / 2) {
+        if (p.dist(zombie.getX(), zombie.getY(), x, y) < zombie.getR() / 2 +  r/2) {
             return true;
         } else return false;
     }
+
+    public int computeRandom(int MAX, int MIN){
+        return MIN + (int) (Math.random() * ((MAX - MIN) + 1));
+    }
+
+    public int computeR(){
+        int size = computeRandom(10,1);
+        if (size < 3){
+            r = computeRandom(15,5);
+        }
+        else if (size < 6){
+            r= computeRandom(30,10);
+        }
+        else if (size>=6){
+            r = computeRandom(50,20);
+        }
+        return r;
+    }
 }
-
-
-
-//        public void collide(Zombie zombie){
-//            int whoWins = 1 + (int) (Math.random() * ((10 - 1) + 1));
-//                 //if(whoWins<7){
-//
-//                //human turns into zombie
-//            }
-//                else{
-//                //zombies.remove(this zombie);
-//                //ParticleSystem = new ParticleSystem(zombie.x,zombie.y);
-//            }
-//        }
-// }
-
-
-
-//    public void explode(){
-//        if( collide == false){
-//            ParticleSystem explode = new ParticleSystem(zombie.x,zombie.y);
-//        }
-//    }
-

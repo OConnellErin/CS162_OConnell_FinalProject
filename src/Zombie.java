@@ -5,10 +5,14 @@ import java.util.ArrayList;
 public class Zombie {
     private int x;
     private int y;
-    private int w;
-    private int l;
-    private PApplet p; //make this so person can access processing
+    private int r;
+    private PApplet p;
     private final int WINDOW_SIZE = 1000;
+    private final int TOP_CUSHION = 800;
+    private final int BOTTOM_CUSHION = 50;
+    private  final int MAX = 50;
+    private  final  int MIN = 5;
+
 
     public int getX() {
         return x;
@@ -26,65 +30,71 @@ public class Zombie {
         this.y = y;
     }
 
-    public int getW() {
-        return w;
+    public int getR() {
+        return r;
     }
 
-    public void setW(int w) {
-        this.w = w;
+    public void setR(int r) {
+        this.r = r;
     }
 
-    public int getL() {
-        return l;
-    }
-
-    public void setL(int l) {
-        this.l = l;
-    }
 
     Zombie(PApplet p) {
-        x = 5 + (int) (Math.random() * ((WINDOW_SIZE - 5) + 1));
+        x = MIN + (int) (Math.random() * ((WINDOW_SIZE - MIN) + 1));
         y = 800 + (int) (Math.random() * ((WINDOW_SIZE - 800) + 1));
-        w = 25;
-        l = 25;
+        r = computeR();
         this.p = p;
     }
 
     Zombie(PApplet p, int x, int y) {
         this.y = y;
         this.x = x;
-        w = 25;
-        l = 25;
         this.p = p;
+        r = computeRandom(50,5);
     }
 
     Zombie() {
-        x = 5 + (int) (Math.random() * ((50 - 5) + 1));
-        y = 5 + (int) (Math.random() * ((50 - 5) + 1));
-        w = 50;
-        l = 50;
+        x = MIN + computeRandom(50,5);
+        y = MIN + computeRandom(50,5);
+        r = MIN + computeRandom(50,5);
+        r = computeRandom(50,5);
     }
 
-    public void draw() {
-        p.fill(255,179,0);
-        p.ellipse(x, y, w, l);
+    public void draw(int r, int b, int g) {
+        p.fill(r,b,g);
+        p.circle(x,y,this.r);
     }
-
 
 
     public void move() {
-        int direction = 1 + (int) (Math.random() * ((10 - 1) + 1));
+        int direction = computeRandom(10,1);
         if (direction <= 5) {
-            --y;
+            --this.y;
         } else if (direction == 6){
-            y=y;
+            this.y=this.y;
         } else if (direction == 7) {
-            ++x;
+            ++this.x;
         } else if (direction == 8) {
-            --x;
+            --this.x;
         } else {
-            ++y;
+            ++this.y;
         }
     }
+    public int computeRandom(int MAX, int MIN){
+        return MIN + (int) (Math.random() * ((MAX - MIN) + 1));
+    }
 
+    public int computeR(){
+        int size = computeRandom(10,1);
+        if (size < 3){
+            r = computeRandom(15,5);
+        }
+        else if (size < 6){
+            r= computeRandom(30,10);
+        }
+        else if (size>=6){
+            r = computeRandom(50,20);
+        }
+        return r;
+    }
 }
